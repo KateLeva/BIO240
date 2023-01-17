@@ -1,0 +1,163 @@
+---
+title: "Introduction to Dataframes in R"
+---
+
+In this lab, we'll continue to practice working with data frames and check out a few more basic tools for doing so. In your pair, one person should be the "driver" who is actively typing the code, while the other person is the "facilitator" who is looking for potential typos in code, thinking about how to solve the problem, etc. 
+
+Here, you're working in an R Markdown document. These are super convenient, as plots and analyses are embedded within the document, and you can run each chunk of code separately. We'll be working mostly in RMarkdown files in this class. 
+
+#The Behavioral Risk Factor Surveillance System (BRFSS)
+
+The Behavioral Risk Factor Surveillance System (BRFSS) is an annual telephone survey of 350,000 people in the United States. The BRFSS is designed to identify risk factors in the adult population and report emerging health trends. For example, respondents are asked about their diet, weekly exercise, possible tobacco use, and healthcare coverage. 
+
+Use the following command to download the dataset cdc from a URL. This dataset is a sample of 20,000 people from the survey conducted in 2000, and contains responses from a subset of the questions asked on the survey.
+
+```{r}
+source("http://www.openintro.org/stat/data/cdc.R")
+```
+
+Take a look at the Environment tab, where cdc should now be visible. Click the blue button next to the dataset name to view a summary of the 9 variables contained in the data matrix. To view the dataset itself, click on the name of the dataset; alternatively, enter the command
+```{r}
+View(cdc)
+```
+
+To look at just the top 10 observations, you can also use: 
+
+```{r}
+head(cdc)
+```
+
+To look at the bottom 10 observations, you can use: 
+
+```{r}
+tail(cdc)
+```
+
+Each row of the data matrix represents a case and each column represents a variable. Each variable corresponds to a question that was asked in the survey. For genhlth, respondents were asked to evaluate their general health as either "excellent", "very good", "good", "fair", or "poor". The variables exerany, hlthplan, and smoke100 are binary variables, with responses recorded as either 0 for "no" and 1 for "yes": whether the respondent exercised in the past month, has health coverage, or has smoked at least 100 cigarettes in their lifetime. The other variables record the respondents' height in inches, weight in pounds, their desired weight (wtdesire), age in years, and gender *which here actually refers to two categories of biological sex -- many datasets unfortunately use gender and biological sex interchangeably :( 
+
+1a. For each variable, determine what type it is (e.g. continuous discrete, etc.)
+#Add your answer below. 
+genhlth: 
+exerany: 
+hlthplan:
+smoke100:
+height:
+weight:
+wtdesire:
+age:
+gender (biological sex): 
+
+To determine the sample size (i.e. number of independent observations) in this dataset, you could just look in the Environment tab, or you can calculate the number of rows (i.e. observations in the dataset): 
+
+```{r}
+nrow(cdc)
+```
+
+
+1b. Do the number of rows you measured here match the number of observations recorded in the environment tab? Does this make sense in regards to the sample size of this study?
+#Add your text answer here
+
+
+2. Make a scatterplot of height and weight using the plot( ) command like you did in your pre-class activity.
+Remember: The $ operator in R is used to access variables within a dataset; for example, cdc$height tells R to look in the cdc dataframe for the height variable 
+
+    ```{r, eval = FALSE}
+#There are actually two ways to do this 
+plot(Dataset$ResponseVar ~ Dataset$ExplanatoryVar)
+
+#OR
+plot(Dataset$ExplanatoryVar, Dataset$ResponseVar)    
+
+#Go ahead and change the objects Dataset, ResponseVar, and ExplanatoryVar to refer to the specific variables in this study, and make each plot below:
+
+plot(Dataset$ResponseVar ~ Dataset$ExplanatoryVar) #EDIT ME!
+
+plot(Dataset$ExplanatoryVar, Dataset$ResponseVar) #EDIT ME!
+    
+```
+
+3. From your plots, do height and weight appear to be associated?
+#text answer here: 
+
+
+The conversion from inches to meters is 1 in = .0254 m. Create a new variable height.m that records height in meters. 
+
+```{r}
+#This can also be done two ways:
+height.m <- cdc$height * 0.0254 
+
+#OR
+height.m = cdc$height * 0.0254 
+
+#Both the <- and = sign assign whatever is to the right to your name on the left. 
+
+head(height.m) #check out the vector you created. Describe what values are contained in height.m
+#text answer here:
+
+```
+
+4. Similarly, the conversion from pounds to kilograms is 1 lb = .454 kg. Create a new variable weight.kg that records weight in kilograms.
+
+```{r}
+#put your code here based on how we did this for height. You can use either <- or =, whichever you prefer. 
+
+
+```
+
+
+5a. BMI is calculated as weight in kilograms divided by height squared. Create a new variable bmi. 
+
+```{r}
+#put your code here 
+```
+
+5b.  Use the plot() function to make a scatterplot of height and BMI. Do height and BMI seem to be associated?
+
+```{r}
+#put your code here 
+
+
+```
+#Text description here
+
+
+6. A BMI of 30 or above is considered obese (though we're going to discuss later whether this standard actually makes sense to use). Why might health agencies choose to use BMI as a measure of obesity, rather than weight? 
+#Text answer here 
+
+
+
+#Feel free to stop here. If you're excited to continue learning some new R skills, continue below to learn how to subset in R. We'll dig more into subsetting next week, so don't worry if you don't make it to this part. 
+
+Row-and-column notation in combination with square brackets can be used to access a subset of the data. For example, to access the sixth variable weight of the 567th respondent, use the command:
+
+    ```{r, eval = F}
+cdc[567, 6]
+```
+
+To see the weight for the first ten respondents, use:
+
+    ```{r, eval = F}
+cdc[1:10, 6]
+```
+
+If the column number is omitted, then all the columns will be returned for rows 1 through 10: 
+	
+    ```{r, eval = F}
+cdc[1:10, ]
+```
+
+Likewise, omit the range for the rows to access all observations for column 6. The following will return the weight for all 20,000 respondents:
+	
+    ```{r, eval = F}
+cdc[ ,6]
+```
+
+
+7. Use bracket notation to make a scatterplot of height and weight for the first 100 respondents. There are multiple ways to do this -- find one that works!
+
+```{r}
+#put your code for the plot here 
+
+
+
+```
